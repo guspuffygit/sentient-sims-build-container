@@ -1,0 +1,26 @@
+name: Build and Deploy Jenkins Container
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-publish-jenkins-docker:
+    name: Publish Jenkins Container
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Checkout"
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build Jenkins Container
+      run: docker build -t ghcr.io/${{ github.repository }}:${{ github.ref_name }}-jenkins -f jenkins.Dockerfile .
+    - name: Publish Jenkins Container
+      run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}-jenkins
