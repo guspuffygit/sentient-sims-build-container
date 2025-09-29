@@ -1,4 +1,10 @@
-FROM golang:1.25.1-bullseye
+FROM golang:1.24.5-bullseye
+
+
+RUN wget https://go.dev/dl/go1.25.1.linux-amd64.tar.gz \
+      && rm -rf /usr/local/go \
+      && tar -C /usr/local -xzf go1.25.1.linux-amd64.tar.gz \
+      && go version
 
 RUN apt update \
       && apt install -y \
