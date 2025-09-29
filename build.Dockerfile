@@ -1,4 +1,4 @@
-FROM golang:1.24.5-bullseye
+FROM golang:1.25.1-bullseye
 
 RUN apt update \
       && apt install -y \
@@ -23,7 +23,7 @@ RUN cd Python-3.7.0 && make install \
       && python3.7 --version
 
 
-FROM public.ecr.aws/docker/library/node:24.3.0
+FROM public.ecr.aws/docker/library/node:24.9.0
 
 COPY --from=0 /usr/local/go /usr/local/go
 COPY --from=0 /usr/local/bin /usr/local/bin
